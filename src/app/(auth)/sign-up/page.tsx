@@ -8,24 +8,25 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { AuthCredetialsValidator, TAuthCredentialsValidator } from "@/lib/validators/account-credentials-validator";
+import { trpc } from "@/trpc/client";
 
 const Page = () => {
     
-
-    
-
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm({
+    } = useForm<TAuthCredentialsValidator>({
         resolver: zodResolver(AuthCredetialsValidator),
     });
 
+    const {data} = trpc.anyApiRoute.useQuery()
+
     const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
+
         // send data to the server
+        
     };
 
     return (
@@ -52,7 +53,8 @@ const Page = () => {
                     </div>
 
                     <div className="grid gap-6">
-                        <form onSubmit={handleSubmit(onsubmit)}>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            {/* TODO: OnSubmit Form */}
                             <div className="grid gap-2">
                                 <div className="grid gap-1 py-2">
                                     <Label htmlFor="email">Email</Label>
